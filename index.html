@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Love You Always</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="intro-active">
+
+<!-- ============ RELEASE GATE: countdown + admin bypass ============ -->
+<div id="release-gate" class="release-gate" aria-live="polite">
+  <div class="release-glow" aria-hidden="true"></div>
+  <div class="release-card">
+    <p class="release-kicker">ADA SURPRISE KECIL DARIKU</p>
+    <div class="release-flower" aria-hidden="true">✿</div>
+    <h1>Belum waktunya dibuka<br><em>sayang...</em></h1>
+    <p class="release-copy">Tungguin terus yaa, jangan lupa direkam wkwk<br><strong>07 November 2026 · 00:00 WIB</strong></p>
+    <div class="countdown" id="countdown" aria-label="hitung mundur menuju pembukaan">
+      <div><strong id="cd-days">00</strong><span>hari</span></div>
+      <i>:</i>
+      <div><strong id="cd-hours">00</strong><span>jam</span></div>
+      <i>:</i>
+      <div><strong id="cd-minutes">00</strong><span>menit</span></div>
+      <i>:</i>
+      <div><strong id="cd-seconds">00</strong><span>detik</span></div>
+    </div>
+    <p class="release-note" id="release-note">Nanti jam 00:00 website ini bakal buka sendiri jadi tunggu yaa. 
+      <br> DIBUAT PADA 25 SEPTEMBER 2026 </br>
+    </p>
+    <button id="admin-toggle" class="admin-link" type="button">Guah Adminnya</button>
+    <form id="admin-form" class="admin-form" hidden>
+      <label for="admin-password">Masukin Password</label>
+      <div class="admin-row"><input id="admin-password" type="password" autocomplete="off" placeholder="masukkan password"><button type="submit">masuk</button></div>
+      <small id="admin-error" role="alert"></small>
+    </form>
+  </div>
+</div>
+
+
+<!-- ============ INTRO OVERLAY: kue + suara + ucapan + balon ============ -->
+<div id="intro" class="intro" role="dialog" aria-label="ucapan ulang tahun">
+  <div class="intro-glow" aria-hidden="true"></div>
+  <div class="intro-content">
+    <p class="intro-kicker">07-11-2009</p>
+    <svg class="intro-cake" viewBox="0 0 220 200" aria-hidden="true">
+      <defs>
+        <radialGradient id="flameGlow">
+          <stop offset="0" stop-color="#FFD98A" stop-opacity=".75"/>
+          <stop offset="1" stop-color="#FFD98A" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="110" cy="182" rx="102" ry="9" fill="#000" opacity=".22"/>
+      <ellipse cx="110" cy="176" rx="92" ry="7" fill="var(--paper)" stroke="var(--dusty)" stroke-width="1.4"/>
+      <!-- bottom tier -->
+      <rect x="25" y="112" width="170" height="62" rx="6" fill="var(--paper)" stroke="var(--dusty)" stroke-width="2"/>
+      <path d="M25 112H195V128Q181 142 167 128Q153 142 139 128Q125 142 111 128Q97 142 83 128Q69 142 55 128Q40 142 25 128Z" fill="var(--blush)" stroke="var(--dusty)" stroke-width="1.6"/>
+      <circle cx="52" cy="152" r="3" fill="var(--rose)"/><circle cx="84" cy="160" r="3" fill="var(--gold)"/>
+      <circle cx="118" cy="151" r="3" fill="var(--rose)"/><circle cx="150" cy="161" r="3" fill="var(--gold)"/>
+      <circle cx="176" cy="150" r="3" fill="var(--rose)"/>
+      <!-- top tier -->
+      <rect x="55" y="68" width="110" height="46" rx="5" fill="var(--blush)" stroke="var(--dusty)" stroke-width="2"/>
+      <path d="M55 68H165V82Q152 94 138 82Q124 94 110 82Q96 94 82 82Q68 94 55 82Z" fill="var(--paper)" stroke="var(--dusty)" stroke-width="1.6"/>
+      <g id="intro-candles"></g>
+    </svg>
+    <h1 class="intro-title">Selamat ulang tahun</h1>
+    <p class="intro-name" data-name>[NAMA]</p>
+    <div class="intro-action">
+      <div class="intro-wait" id="intro-wait"><span id="intro-wait-fill"></span></div>
+      <button id="intro-enter" class="btn-open intro-enter" type="button">Awas kaget eaa</button>
+    </div>
+  </div>
+  <p id="intro-hint" class="intro-hint">ketuk layar untuk menyalakan suara</p>
+  <audio id="intro-audio" src="assets/music/birthday.mp3" preload="auto" loop></audio>
+</div>
+<!-- balon terbang, di atas overlay & website supaya tetap terlihat saat transisi -->
+<div id="intro-balloons" class="intro-balloons" aria-hidden="true"></div>
+
+<!-- floating flower / petal canvas, lives behind everything -->
+<div id="flower-field" aria-hidden="true"></div>
+
+<!-- ============ 1. LANDING ============ -->
+<section id="landing" class="section landing">
+  <div class="landing-inner">
+    <p class="eyebrow-date">07-11-2009</p>
+    <p class="landing-line">hari dimana seseorang yang sangat berarti lahir.</p>
+    <h1 class="landing-name" data-name>[NAMA]</h1>
+    <button id="open-book-btn" class="btn-open">Pencet ini dulu<span class="dots">...</span></button>
+  </div>
+  <div class="party-deco" id="landing-deco" aria-hidden="true"></div>
+  <div class="page-fold" aria-hidden="true"></div>
+</section>
+
+<!-- ============ 2. DIARY INTRO ============ -->
+<section id="diary" class="section diary">
+  <div class="diary-page">
+    <p class="diary-meta"><span data-diary-date>07 November</span> &middot; <span data-diary-time>—</span></p>
+    <h2 class="diary-heading">sebelum kamu membaca semuanya...</h2>
+    <p class="diary-text" id="diary-typewriter"></p>
+    <p class="handnote">— ditulis khusus untuk kamu</p>
+  </div>
+</section>
+
+<!-- ============ 3. TENTANG KAMU ============ -->
+<section id="about-her" class="section about">
+  <h2 class="section-title reveal" data-dir="blur">hal kecil tentang kamu<br>yang mungkin kamu sendiri ga sadar.</h2>
+  <div class="notes-board">
+    <div class="sticky-note reveal" data-dir="left" style="--rot:-3deg">
+      <p class="note-label">yang aku suka dari kamu</p>
+      <p class="note-text" data-note="like">[CATATAN: hal yang aku suka dari kamu]</p>
+    </div>
+    <div class="sticky-note reveal" data-dir="scale" style="--rot:2deg">
+      <p class="note-label">kebiasaan kecil kamu</p>
+      <p class="note-text" data-note="habit">[CATATAN: kebiasaan kecil kamu]</p>
+    </div>
+    <div class="sticky-note reveal" data-dir="right" style="--rot:-1.5deg">
+      <p class="note-label">hal random yang selalu ingetin aku ke kamu</p>
+      <p class="note-text" data-note="reminder">[CATATAN: hal random pengingat kamu]</p>
+    </div>
+    <div class="sticky-note reveal" data-dir="up" style="--rot:3deg">
+      <p class="note-label">kenapa aku nyaman ngobrol sama kamu</p>
+      <p class="note-text" data-note="comfort">[CATATAN: alasan nyaman ngobrol]</p>
+    </div>
+    <div class="sticky-note reveal" data-dir="scale" style="--rot:-2deg">
+      <p class="note-label">hal kecil yang selalu bikin aku senyum</p>
+      <p class="note-text" data-note="smile">[CATATAN: hal yang bikin senyum]</p>
+    </div>
+  </div>
+  <p class="tap-hint">ketuk tiap catatan untuk baca lebih lengkap</p>
+</section>
+
+<!-- ============ 4. PHOTO ALBUM ============ -->
+<section id="album" class="section album">
+  <h2 class="section-title reveal" data-dir="left">a few frames<br>i kept.</h2>
+  <div class="album-stage">
+    <button class="album-nav prev" id="album-prev" aria-label="foto sebelumnya">&#8592;</button>
+    <div class="polaroid-wrap" id="polaroid-wrap"></div>
+    <button class="album-nav next" id="album-next" aria-label="foto berikutnya">&#8594;</button>
+  </div>
+  <p class="album-counter"><span id="album-index">01</span> / <span id="album-total">--</span></p>
+</section>
+
+<!-- lightbox for enlarged photo -->
+<div id="lightbox" class="lightbox">
+  <div class="lightbox-inner">
+    <img id="lightbox-img" src="" alt="">
+    <p id="lightbox-caption"></p>
+  </div>
+</div>
+
+<!-- ============ 4.5 VIDEO MEMORY ============ -->
+<section id="video-memory" class="section video-memory">
+  <h2 class="section-title reveal" data-dir="scale">a video<br>i want you to see.</h2>
+  <div class="film-frame reveal" data-dir="up">
+    <div class="film-sprockets top" aria-hidden="true"></div>
+    <div class="film-stage">
+      <video id="memory-video" playsinline preload="metadata" poster="assets/video/poster.jpg">
+        <source src="assets/video/beautiful.MOV" type="video/mp4">
+      </video>
+      <button id="video-play-btn" class="video-play-btn" aria-label="putar video">
+        <span class="video-play-icon">&#9658;</span>
+      </button>
+      <div class="film-corner tl" aria-hidden="true"></div>
+      <div class="film-corner tr" aria-hidden="true"></div>
+      <div class="film-corner bl" aria-hidden="true"></div>
+      <div class="film-corner br" aria-hidden="true"></div>
+    </div>
+    <div class="film-sprockets bottom" aria-hidden="true"></div>
+  </div>
+  <p class="video-caption">[CAPTION_VIDEO: kata-kata singkat di bawah video]</p>
+</section>
+
+<!-- ============ 5. NEWSPAPER ============ -->
+<section id="newspaper" class="section newspaper">
+  <div class="paper-sheet reveal" data-dir="scale">
+    <p class="paper-kicker">A SMALL MEMORY, PRINTED &mdash; ISSUE 07/11</p>
+    <h2 class="paper-headline">THE DAY YOU WERE BORN</h2>
+    <p class="paper-date">07 NOVEMBER 2009</p>
+    <div class="paper-columns">
+      <div class="paper-col">
+        <p class="paper-sub">LOCAL GIRL TURNS ANOTHER YEAR OLDER</p>
+        <p>[ARTIKEL SINGKAT: cerita singkat tentang dia, boleh playful]</p>
+      </div>
+      <div class="paper-col">
+        <p class="paper-sub">SAKSI MATA (GUE) MELAPORKAN ANJAY</p>
+        <p>[ARTIKEL SINGKAT: kesan / testimoni singkat darimu]</p>
+      </div>
+    </div>
+    <p class="paper-caption">foto: [CAPTION_FOTO_01]</p>
+  </div>
+</section>
+
+<!-- ============ 6. THINGS I NEVER SAID ============ -->
+<section id="never-said" class="section never-said">
+  <div class="never-said-lines">
+    <p class="ns-line reveal" data-dir="blur">aku mungkin ga selalu pandai menunjukkan semuanya.</p>
+    <p class="ns-line reveal" data-dir="blur">aku terlalu sering buat masalah.</p>
+    <p class="ns-line reveal" data-dir="blur">aku terlalu banyak bercanda.</p>
+    <p class="ns-line reveal" data-dir="blur">tapi ada satu hal yang selalu benar&hellip;</p>
+    <p class="ns-final reveal" data-dir="scale">kamu orang yang berarti di hidupku.</p>
+  </div>
+</section>
+
+<!-- ============ 7. SECRET MESSAGE ============ -->
+<section id="secret" class="section secret">
+  <h2 class="section-title reveal light" data-dir="blur">there is something here<br>only you can open.</h2>
+  <div class="secret-box reveal" data-dir="up">
+    <input type="text" id="secret-input" placeholder="kata rahasia..." autocomplete="off">
+    <button id="secret-btn">buka</button>
+    <p id="secret-error" class="secret-error"></p>
+  </div>
+  <div id="secret-unlock" class="secret-unlock">
+    <p id="secret-message" class="secret-message">[RAHASIA: pesan rahasia untuk dia]</p>
+  </div>
+</section>
+
+<!-- ============ 8. LETTER ============ -->
+<section id="letter" class="section letter">
+  <h2 class="section-title reveal" data-dir="right">a letter.</h2>
+  <div class="envelope" id="envelope">
+    <div class="envelope-back"></div>
+    <div class="envelope-flap"></div>
+    <div class="envelope-front"></div>
+    <p class="envelope-hint">ketuk untuk buka</p>
+  </div>
+  <div class="letter-paper" id="letter-paper">
+    <p class="letter-body">[ISI SURAT PERSONAL DI SINI]</p>
+    <p class="letter-signature">— Daw 2000 Tahun yang lalu</p>
+  </div>
+</section>
+
+<!-- ============ 9. OUR LITTLE PLANS ============ -->
+<section id="plans" class="section plans">
+  <h2 class="section-title reveal" data-dir="left">little plans<br>for someday.</h2>
+  <ul class="plans-list">
+    <li class="plan-item reveal" data-dir="left"><label><input type="checkbox"><span class="check"></span><span class="plan-text">pergi ke tempat yang belum pernah kita datangi</span></label></li>
+    <li class="plan-item reveal" data-dir="up"><label><input type="checkbox"><span class="check"></span><span class="plan-text">foto bareng lagi</span></label></li>
+    <li class="plan-item reveal" data-dir="right"><label><input type="checkbox"><span class="check"></span><span class="plan-text">nyobain makanan random</span></label></li>
+    <li class="plan-item reveal" data-dir="up"><label><input type="checkbox"><span class="check"></span><span class="plan-text">buat lebih banyak cerita</span></label></li>
+    <li class="plan-item reveal" data-dir="left"><label><input type="checkbox"><span class="check"></span><span class="plan-text">mulai terbuka dan sharing satu sama lain</span></label></li>
+  </ul>
+</section>
+
+<!-- ============ 10. EMOTIONAL CLIMAX ============ -->
+<section id="climax" class="section climax">
+  <div class="climax-inner reveal" data-dir="blur">
+    <p class="climax-line">kalau suatu hari nanti kamu membuka website ini lagi&hellip;</p>
+    <p class="climax-line">aku harap kamu masih bisa tersenyum ketika mengingat masih ada cowo se cinta ini yaa ke kamu wkwk...</p>
+    <p class="climax-pause">&nbsp;</p>
+    <p class="climax-final">Happy birthday, Love you always Lian Safitri...</p>
+  </div>
+</section>
+
+<!-- ============ 11. FINAL ============ -->
+<section id="final" class="section final">
+  <div class="party-deco" id="final-deco" aria-hidden="true"></div>
+  <p class="final-date">07-11-2009</p>
+  <h2 class="final-name" data-name>[NAMA]</h2>
+  <p class="final-thanks">Thank you for being part of my story. aku izin pamit...</p>
+  <p class="final-small">ini adalah hal kecil website yang ku buat untukmu</p>
+  <button id="restart-btn" class="btn-open">Sampai ketemu lagi...</button>
+</section>
+
+<!-- ============ MUSIC PLAYER (fixed) ============ -->
+<div class="music-player" id="music-player">
+  <button id="music-toggle" class="music-toggle" aria-label="play music">
+    <img id="music-cover" src="assets/music/cover.jpg" alt="" class="music-cover">
+    <span class="music-play-icon" id="music-icon">&#9658;</span>
+  </button>
+  <div class="music-info" id="music-info">
+    <p class="music-title" data-song-title>[LAGU]</p>
+    <p class="music-artist" data-song-artist>[ARTIS]</p>
+    <div class="music-progress"><div class="music-progress-fill" id="music-progress-fill"></div></div>
+  </div>
+</div>
+<audio id="bg-audio" src="assets/music/mix.mp3" preload="none" loop></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
