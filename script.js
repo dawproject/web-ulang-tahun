@@ -14,8 +14,8 @@ const CONFIG = {
   secretMessage: "hay princesss imup. kalau kamu berhasil ngetik nama ini dan ngebuka pesan ini, artinya kamu emang ditakdirkan buat baca isi kepala dan hati gweh yang sebenarnya. Jujur, selama ini aku selalu nunggu—bukan cuma buat sekadar jadi 'kakak' atau tempat ngobrol pas gabut, tapi buat bener-bener ada di sisi kamu lebih dari itu. Makasih ya udah jadi bagian paling seru di hari-hariku. Kurang-kurangin galaknya, aku takut awokwakaokw, dan... let's see where this goes, shall we?",
   diaryText: "hei. sebelum kamu lanjut ke bawah, aku cuma mau bilang — semua ini aku buat sendiri, baca pelan-pelan, khusus untuk kamu. aku buat ini dan mempersiapkan semuanya dari awal aku mengenalmu selama kurang lebih 6 bulan ini aku mempersiapkan semuanya...",
   song: {
-    title: "Beautiful",
-    artist: "Bazzi",
+    title: "Shape Of My Heart",
+    artist: "I Lay My Love On You",
     src: "assets/music/mix.mp3",
     cover: "assets/music/cover.jpg"
   },
