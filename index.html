@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5C1F2E">
+<title>Love You Always</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="intro-active">
+
+<!-- ============ CINEMA LAYERS: grain, vignette, flash, letterbox (decor only) ============ -->
+<div class="cine-grain" aria-hidden="true"></div>
+<div class="cine-vignette" aria-hidden="true"></div>
+<div class="cine-flash" id="cine-flash" aria-hidden="true"></div>
+<div class="letterbox top" aria-hidden="true"></div>
+<div class="letterbox bottom" aria-hidden="true"><i class="rec-dot"></i></div>
+
+<!-- ============ RELEASE GATE: countdown + admin bypass ============ -->
+<div id="release-gate" class="release-gate" aria-live="polite">
+  <div class="release-glow" aria-hidden="true"></div>
+  <div class="release-card">
+    <p class="release-kicker">ADA SURPRISE KECIL DARIKU</p>
+    <div class="release-flower" aria-hidden="true">✿</div>
+    <h1>Belum waktunya dibuka<br><em>sayang...</em></h1>
+    <p class="release-copy">Tungguin terus yaa, jangan lupa direkam wkwk<br><strong>07 November 2026 · 00:00 WIB</strong></p>
+    <div class="countdown" id="countdown" aria-label="hitung mundur menuju pembukaan">
+      <div><strong id="cd-days">00</strong><span>hari</span></div>
+      <i>:</i>
+      <div><strong id="cd-hours">00</strong><span>jam</span></div>
+      <i>:</i>
+      <div><strong id="cd-minutes">00</strong><span>menit</span></div>
+      <i>:</i>
+      <div><strong id="cd-seconds">00</strong><span>detik</span></div>
+    </div>
+    <p class="release-note" id="release-note">Nanti jam 00:00 website ini bakal buka sendiri jadi tunggu yaa. 
+      <br> DIBUAT PADA 25 SEPTEMBER 2026
+    </p>
+    <button id="admin-toggle" class="admin-link" type="button">Guah Adminnya</button>
+    <form id="admin-form" class="admin-form" hidden>
+      <label for="admin-password">Masukin Password</label>
+      <div class="admin-row"><input id="admin-password" type="password" autocomplete="off" placeholder="masukkan password"><button type="submit">masuk</button></div>
+      <small id="admin-error" role="alert"></small>
+    </form>
+  </div>
+</div>
+
+
+<!-- ============ INTRO OVERLAY: kue + suara + ucapan + balon ============ -->
+<div id="intro" class="intro" role="dialog" aria-label="ucapan ulang tahun">
+  <div class="intro-glow" aria-hidden="true"></div>
+  <div class="intro-content">
+    <p class="intro-kicker">07-11-2009</p>
+    <svg class="intro-cake" viewBox="0 0 220 200" aria-hidden="true">
+      <defs>
+        <radialGradient id="flameGlow">
+          <stop offset="0" stop-color="#FFD98A" stop-opacity=".75"/>
+          <stop offset="1" stop-color="#FFD98A" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="110" cy="182" rx="102" ry="9" fill="#000" opacity=".22"/>
+      <ellipse cx="110" cy="176" rx="92" ry="7" fill="var(--paper)" stroke="var(--dusty)" stroke-width="1.4"/>
+      <!-- bottom tier -->
+      <rect x="25" y="112" width="170" height="62" rx="6" fill="var(--paper)" stroke="var(--dusty)" stroke-width="2"/>
+      <path d="M25 112H195V128Q181 142 167 128Q153 142 139 128Q125 142 111 128Q97 142 83 128Q69 142 55 128Q40 142 25 128Z" fill="var(--blush)" stroke="var(--dusty)" stroke-width="1.6"/>
+      <circle cx="52" cy="152" r="3" fill="var(--rose)"/><circle cx="84" cy="160" r="3" fill="var(--gold)"/>
+      <circle cx="118" cy="151" r="3" fill="var(--rose)"/><circle cx="150" cy="161" r="3" fill="var(--gold)"/>
+      <circle cx="176" cy="150" r="3" fill="var(--rose)"/>
+      <!-- top tier -->
+      <rect x="55" y="68" width="110" height="46" rx="5" fill="var(--blush)" stroke="var(--dusty)" stroke-width="2"/>
+      <path d="M55 68H165V82Q152 94 138 82Q124 94 110 82Q96 94 82 82Q68 94 55 82Z" fill="var(--paper)" stroke="var(--dusty)" stroke-width="1.6"/>
+      <g id="intro-candles"></g>
+    </svg>
+    <h1 class="intro-title">Selamat ulang tahun</h1>
+    <p class="intro-name" data-name>[NAMA]</p>
+    <div class="intro-action">
+      <div class="intro-wait" id="intro-wait"><span id="intro-wait-fill"></span></div>
+      <button id="intro-enter" class="btn-open intro-enter" type="button">Awas kaget eaa</button>
+    </div>
+  </div>
+  <p id="intro-hint" class="intro-hint">ketuk layar untuk menyalakan suara</p>
+  <audio id="intro-audio" src="assets/music/birthday.mp3" preload="auto" loop></audio>
+</div>
+<!-- balon terbang, di atas overlay & website supaya tetap terlihat saat transisi -->
+<div id="intro-balloons" class="intro-balloons" aria-hidden="true"></div>
+
+<!-- floating flower / petal canvas, lives behind everything -->
+<div id="flower-field" aria-hidden="true"></div>
+
+<!-- ============ 1. LANDING ============ -->
+<section id="landing" class="section landing">
+  <div class="landing-inner">
+    <p class="eyebrow-date">07-11-2009</p>
+    <p class="landing-line">hari dimana seseorang yang sangat berarti lahir.</p>
+    <h1 class="landing-name" data-name>[NAMA]</h1>
+    <button id="open-book-btn" class="btn-open" type="button">Pencet ini dulu<span class="dots">...</span></button>
+  </div>
+  <div class="party-deco" id="landing-deco" aria-hidden="true"></div>
+  <div class="page-fold" aria-hidden="true"></div>
+</section>
+
+<!-- ============ 2. DIARY INTRO ============ -->
+<section id="diary" class="section diary" data-cam="rise">
+  <div class="diary-page">
+    <p class="diary-meta"><span data-diary-date>07 November</span> &middot; <span data-diary-time>—</span></p>
+    <h2 class="diary-heading">sebelum kamu membaca semuanya...</h2>
+    <p class="diary-text" id="diary-typewriter"></p>
+    <p class="handnote">— ditulis khusus untuk kamu</p>
+  </div>
+</section>
+
+<!-- ============ 3. TENTANG KAMU ============ -->
+<section id="about-her" class="section about" data-cam="pan-l">
+  <h2 class="section-title reveal" data-dir="blur">hal kecil tentang kamu<br>yang mungkin kamu sendiri ga sadar.</h2>
+  <div class="notes-board">
+    <div class="sticky-note reveal" role="button" tabindex="0" aria-expanded="false" data-dir="left" style="--rot:-3deg">
+      <p class="note-label">yang aku suka dari kamu</p>
+      <p class="note-text" data-note="like">dari awal aku mengenalmu aku lebih tertarik oleh sifatmu yang penuh dengan ngeyelan dan cerewet itu, bener bener aku jatuh cinta disaat orang lain mungkin gak suka sama sifatmu, tapi ntah kenapa justru itu yang aku suka</p>
+    </div>
+    <div class="sticky-note reveal" role="button" tabindex="0" aria-expanded="false" data-dir="scale" style="--rot:2deg">
+      <p class="note-label">kebiasaan kecil kamu</p>
+      <p class="note-text" data-note="habit">yaa waktu awal sekali aku masih inget kamu buat pertamakalinya bilang "iya tiati ya kak" meskipun hal tersebut sederhana cuma rasanya itu kek diperhatiin, dan juga kayak kamu nanya ke aku apapun itu minta bantuan aku lebih suka itu</p>
+    </div>
+    <div class="sticky-note reveal" role="button" tabindex="0" aria-expanded="false" data-dir="right" style="--rot:-1.5deg">
+      <p class="note-label">hal random yang selalu aku ingetin buatmu</p>
+      <p class="note-text" data-note="reminder">aku suka ngingetin kamu makan, terus nyiapin buat besok, dan sebagainya mungkin kalo sekedar ngetik doang mah iya, cuma aku suka mikir 2x kalo aku mau melakukan aksi tersebut pastinya bakal ada resiko aku sih siap aja buat ngambil resikonya, cuma aku lebih takut kalo nanti mempengaruhimu</p>
+    </div>
+    <div class="sticky-note reveal" role="button" tabindex="0" aria-expanded="false" data-dir="up" style="--rot:3deg">
+      <p class="note-label">kenapa aku nyaman ngobrol sama kamu</p>
+      <p class="note-text" data-note="comfort">aku mulai terbiasa walaupun tadinya ga terbiasa karna responmu berubah seperti diawal dan sekarang, tapi setidaknya responmu sekarang udah ada peningkatan, dan mungkin itu membuatmu nyaman seperti balesan yaa kata "sayang" entah kenapa kek nyaman walaupun bukan apa apa</p>
+    </div>
+    <div class="sticky-note reveal" role="button" tabindex="0" aria-expanded="false" data-dir="scale" style="--rot:-2deg">
+      <p class="note-label">hal yang perlu aku kasih tau</p>
+      <p class="note-text" data-note="smile">aku tau kamu selama ini sendirian, aku tau kamu anak pertama dan satu satunya, tapi kamu juga butuh tempat sandaran, tempat cerita, tempat berkeluh kesah semuanya, makannya kenapa alesannya aku ada disini? yaa itu karna untukmu sayangku cintakuu</p>
+    </div>
+  </div>
+  <p class="tap-hint">ketuk tiap catatan untuk baca lebih lengkap</p>
+</section>
+
+<!-- ============ 4. PHOTO ALBUM ============ -->
+<section id="album" class="section album" data-cam="zoom-out">
+  <h2 class="section-title reveal" data-dir="left">a few frames<br>i kept.</h2>
+  <div class="album-stage">
+    <button class="album-nav prev" id="album-prev" aria-label="foto sebelumnya">&#8592;</button>
+    <div class="polaroid-wrap" id="polaroid-wrap" role="group" aria-roledescription="carousel"></div>
+    <button class="album-nav next" id="album-next" aria-label="foto berikutnya">&#8594;</button>
+  </div>
+  <p class="album-counter" aria-live="polite"><span id="album-index">01</span> / <span id="album-total">--</span></p>
+</section>
+
+<!-- lightbox for enlarged photo -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="lightbox-inner">
+    <img id="lightbox-img" src="" alt="">
+    <p id="lightbox-caption"></p>
+  </div>
+</div>
+
+<!-- ============ 4.5 VIDEO MEMORY ============ -->
+<section id="video-memory" class="section video-memory" data-cam="roll">
+  <h2 class="section-title reveal" data-dir="scale">a video<br>i want you to see.</h2>
+  <div class="film-frame reveal" data-dir="up">
+    <div class="film-sprockets top" aria-hidden="true"></div>
+    <div class="film-stage">
+      <video id="memory-video" playsinline preload="metadata" poster="assets/video/poster.jpg">
+        <source src="assets/video/beautiful.mp4" type="video/mp4">
+      </video>
+      <button id="video-play-btn" class="video-play-btn" aria-label="putar video">
+        <span class="video-play-icon">&#9658;</span>
+      </button>
+      <div class="film-corner tl" aria-hidden="true"></div>
+      <div class="film-corner tr" aria-hidden="true"></div>
+      <div class="film-corner bl" aria-hidden="true"></div>
+      <div class="film-corner br" aria-hidden="true"></div>
+    </div>
+    <div class="film-sprockets bottom" aria-hidden="true"></div>
+  </div>
+  <p class="video-caption">- photobooth pertama gua</p>
+</section>
+
+<!-- ============ 5. NEWSPAPER ============ -->
+<section id="newspaper" class="section newspaper" data-cam="pan-r">
+  <div class="paper-sheet reveal" data-dir="scale">
+    <p class="paper-kicker">A SMALL MEMORY, PRINTED &mdash; ISSUE 07/11</p>
+    <h2 class="paper-headline">THE DAY YOU WERE BORN</h2>
+    <p class="paper-date">07 NOVEMBER 2009</p>
+    <div class="paper-columns">
+      <div class="paper-col">
+        <p class="paper-sub">LOCAL GIRL TURNS ANOTHER YEAR OLDER</p>
+        <p>Seorang gadis podosari berstatus anak IPM dan PMR dan peraih ranking 2 sekolah resmi bertambah usia. Dikenal ahli dalam bidang per-sotau-an tingkat nasional, hobi ngambek kalau dibilang nyebelin, tapi jago banget bikin orang lain pusing kelimpungan tiap diajak debat. Walau begitu, kehadirannya sukses bikin hari-hari jadi lebih berwarna dan nggak membosankan.</p>
+      </div>
+      <div class="paper-col">
+        <p class="paper-sub">SAKSI MATA (GUE) MELAPORKAN ANJAY</p>
+        <p>Sebagai saksi mata utama yang memantau pergerakannya dari dekat, dilaporkan bahwa yang bersangkutan makin bertambah usia makin meresahkan—dalam artian makin juara bikin salah tingkah. Pesan dari kulo: kurang-kurangin galaknya, jangan suka males-malesan, dan semoga semua impian hebatnya di tahun ini bisa tercapai satu-satu. Tetap jadi versi terbaik dirimu</p>
+      </div>
+    </div>
+    <p class="paper-caption">The only one.</p>
+  </div>
+</section>
+
+<!-- ============ 6. THINGS I NEVER SAID ============ -->
+<section id="never-said" class="section never-said" data-cam="fade" data-stagger="900">
+  <div class="never-said-lines">
+    <p class="ns-line reveal" data-dir="blur">aku mungkin ga selalu pandai menunjukkan semuanya.</p>
+    <p class="ns-line reveal" data-dir="blur">aku terlalu sering buat masalah.</p>
+    <p class="ns-line reveal" data-dir="blur">aku terlalu banyak bercanda.</p>
+    <p class="ns-line reveal" data-dir="blur">tapi ada satu hal yang selalu benar&hellip;</p>
+    <p class="ns-final reveal" data-dir="scale">kamu orang yang berarti di hidupku.</p>
+  </div>
+</section>
+
+<!-- ============ 7. SECRET MESSAGE ============ -->
+<section id="secret" class="section secret" data-cam="zoom-in">
+  <h2 class="section-title reveal light" data-dir="blur">there is something here<br>only you can open.</h2>
+  <div class="secret-box reveal" data-dir="up">
+    <input type="text" id="secret-input" placeholder="kata rahasia..." autocomplete="off">
+    <button id="secret-btn" type="button">buka</button>
+    <p id="secret-error" class="secret-error"></p>
+  </div>
+  <div id="secret-unlock" class="secret-unlock">
+    <p id="secret-message" class="secret-message">[RAHASIA: pesan rahasia untuk dia]</p>
+  </div>
+</section>
+
+<!-- ============ 8. LETTER ============ -->
+<section id="letter" class="section letter" data-cam="rise">
+  <h2 class="section-title reveal" data-dir="right">a letter.</h2>
+  <div class="envelope" id="envelope" role="button" tabindex="0" aria-expanded="false" aria-controls="letter-paper">
+    <div class="envelope-back"></div>
+    <div class="envelope-flap"></div>
+    <div class="envelope-front"></div>
+    <p class="envelope-hint">ketuk untuk buka</p>
+  </div>
+  <div class="letter-paper" id="letter-paper">
+    <p class="letter-body">liann. kalau kamu lagi baca surat ini, semoga kamu lagi senyum, ya. Dari sekian banyak hal random yang kita obrolin tiap hari, ada satu hal yang jujur pengen aku sampein dengan bener. Makasih ya udah hadir dan bawa warna baru di hari-hari aku. Kadang kita suka Debat nggak jelas, saling ledek, bahkan kamu suka ngambek—tapi justru dari hal-hal kecil itu yang bikin aku sadar, kamu bener-bener berharga. Di umur yang baru ini, aku cuma mau liat kamu terus bertumbuh jadi versi hebat dari diri kamu. Apapun rintangannya, semangat terus ya. You truly are the only one."</p>
+    <p class="letter-signature">— Daw 2000 Tahun yang lalu</p>
+  </div>
+</section>
+
+<!-- ============ 9. OUR LITTLE PLANS ============ -->
+<section id="plans" class="section plans" data-cam="pan-l">
+  <h2 class="section-title reveal" data-dir="left">little plans<br>for someday.</h2>
+  <ul class="plans-list">
+    <li class="plan-item reveal" data-dir="left"><label><input type="checkbox"><span class="check"></span><span class="plan-text">pergi ke tempat yang belum pernah kita datangi</span></label></li>
+    <li class="plan-item reveal" data-dir="up"><label><input type="checkbox"><span class="check"></span><span class="plan-text">foto bareng lagi</span></label></li>
+    <li class="plan-item reveal" data-dir="right"><label><input type="checkbox"><span class="check"></span><span class="plan-text">we always together okay</span></label></li>
+    <li class="plan-item reveal" data-dir="up"><label><input type="checkbox"><span class="check"></span><span class="plan-text">pecel lele date hayyuk</span></label></li>
+    <li class="plan-item reveal" data-dir="left"><label><input type="checkbox"><span class="check"></span><span class="plan-text">mulai terbuka dan sharing satu sama lain</span></label></li>
+  </ul>
+</section>
+
+<!-- ============ 10. EMOTIONAL CLIMAX ============ -->
+<section id="climax" class="section climax" data-cam="slow" data-stagger="1400">
+  <div class="climax-inner">
+    <p class="climax-line reveal" data-dir="blur">kalau suatu hari nanti kamu membuka website ini lagi&hellip;</p>
+    <p class="climax-line reveal" data-dir="blur">aku harap kamu masih bisa tersenyum ketika mengingat masih ada cowo se cinta ini yaa ke kamu wkwk...</p>
+    <p class="climax-pause">&nbsp;</p>
+    <p class="climax-final reveal" data-dir="scale">Happy birthday, Love you always Lian Safitri...</p>
+  </div>
+</section>
+
+<!-- ============ 11. FINAL ============ -->
+<section id="final" class="section final" data-cam="fade">
+  <div class="party-deco" id="final-deco" aria-hidden="true"></div>
+  <p class="final-date reveal" data-dir="blur">07-11-2009</p>
+  <h2 class="final-name reveal" data-dir="blur" data-name>[NAMA]</h2>
+  <p class="final-thanks reveal" data-dir="up">Thank you for being part of my story. aku izin pamit...</p>
+  <p class="final-small reveal" data-dir="up">ini adalah hal kecil website yang ku buat untukmu</p>
+  <button id="restart-btn" class="btn-open reveal" data-dir="up" type="button">Sampai ketemu lagi...</button>
+</section>
+
+<!-- ============ MUSIC PLAYER (fixed) ============ -->
+<div class="music-player" id="music-player">
+  <button id="music-toggle" class="music-toggle" type="button" aria-label="play music">
+    <img id="music-cover" src="assets/music/cover.jpg" alt="" class="music-cover">
+    <span class="music-play-icon" id="music-icon">&#9658;</span>
+  </button>
+  <div class="music-info" id="music-info">
+    <p class="music-title" data-song-title>[LAGU]</p>
+    <p class="music-artist" data-song-artist>[ARTIS]</p>
+    <div class="music-progress"><div class="music-progress-fill" id="music-progress-fill"></div></div>
+  </div>
+</div>
+<audio id="bg-audio" src="assets/music/mix.mp3" preload="none" loop></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
